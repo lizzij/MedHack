@@ -6,7 +6,7 @@ const multer = require('multer');
 
 // node core libraries
 const path = require('path');
-// const fs = require('fs');
+const fs = require('fs');
 
 // model imports
 const Patient = require('./models/patient');
@@ -80,7 +80,25 @@ app.get('/test', (req, res, next) => {
 });
 
 app.get('/create-user', (req, res, next) => {
+    const nPatient = new Patient({
+        name: 'BOB',
+        log: [
+            {
+                time: 'test',
+                bloodPressure: 130
+            }
+        ]
+    });
 
+    nPatient.save()
+    .then(result => {
+        res.status(200).json({
+            userCreation: 'OK'
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    });
 });
 
 app.use(bloodRoutes);
