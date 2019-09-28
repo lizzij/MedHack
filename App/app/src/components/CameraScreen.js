@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
+import { Icon } from 'react-native-ui-kitten';
 
 export class CameraScreen extends React.Component {
   state = {
@@ -14,6 +15,21 @@ export class CameraScreen extends React.Component {
     this.setState({ hasCameraPermission: status === 'granted' });
   }
 
+  async snapPhoto() {
+    console.log('Button Pressed');
+    if (this.camera) {
+       console.log('Taking photo');
+       const options = { quality: 1, base64: false, fixOrientation: true,
+       exif: true};
+       await this.camera.takePictureAsync(options).then(photo => {
+          photo.exif.Orientation = 1;
+           console.log(photo.uri);
+           const uri = photo.uri;
+           return <Image style={{ zIndex: 3 }} source={{ uri }} />
+           });
+     }
+  }
+
   render() {
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
@@ -23,28 +39,17 @@ export class CameraScreen extends React.Component {
     } else {
       return (
         <View style={{ flex: 1 }}>
-          <Camera style={{ flex: 1 }} type={this.state.type}>
+          <Camera style={{ flex: 1 }}
+            ref={ (ref) => {this.camera = ref} }
+            type={this.state.type}>
             <View
               style={{
                 flex: 1,
                 backgroundColor: 'transparent',
                 flexDirection: 'row',
               }}>
-              <TouchableOpacity
-                style={{
-                  flex: 0.1,
-                  alignSelf: 'flex-end',
-                  alignItems: 'center',
-                }}
-                onPress={() => {
-                  this.setState({
-                    type:
-                      this.state.type === Camera.Constants.Type.back
-                        ? Camera.Constants.Type.front
-                        : Camera.Constants.Type.back,
-                  });
-                }}>
-                <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
+              <TouchableOpacity onPress={this.snapPhoto.bind(this)}>
+                <Text style={ styles.snap } category='h4'>SNAP</Text>
               </TouchableOpacity>
             </View>
           </Camera>
@@ -53,3 +58,7 @@ export class CameraScreen extends React.Component {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  snap: { fontSize: 30, color: 'white', position: 'absolute', left: 200, bottom: 300, zIndex: 2, color: 'white' },
+});
