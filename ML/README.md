@@ -32,7 +32,7 @@ print(json.dumps(response.json(), indent=2))
 
 Here each entry in "keypoints" represents the corresponding point on the BODY_25 model of openpose:
 <p align="center">
-    <img src="[media/keypoints_pose_18.png](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/media/keypoints_pose_25.png)", width="480">
+    <img src="https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/media/keypoints_pose_25.png", width="480">
 </p>
 
 - **x**: x position (pixel) of the point on the image
