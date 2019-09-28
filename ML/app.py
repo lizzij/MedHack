@@ -29,7 +29,7 @@ def ocr():
 
     blood_pressure = get_bp(img)
     
-    response {
+    response = {
         "blood_pressure": blood_pressure
     }
 
