@@ -34,8 +34,4 @@ def process(img):
     keypoints = _load_keypoints("test/input_keypoints.json")["people"][0]["pose_keypoints_2d"]
     keypoints = _serialize_points(keypoints)
 
-    # draw and save
-    img = _draw_over_frame(img, keypoints)
-    cv2.imwrite("test/output.jpg", img)
-
     return keypoints
