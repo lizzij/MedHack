@@ -1,7 +1,7 @@
 #!/bin/bash
 OPENPOSE_DIR="/home/start/openpose/"
 BIN_FPATH="/home/start/openpose/build/examples/openpose/openpose.bin"
-TEST_DIR="/home/start/Medhack/ML/test/"
+TEST_DIR="/home/start/MedHack/ML/test/"
 
 cd $OPENPOSE_DIR
 $BIN_FPATH --image_dir $TEST_DIR --display 0 --render_pose 0 --write_json $TEST_DIR
