@@ -1,12 +1,17 @@
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import React from 'react';
+import { mapping, light as lightTheme } from '@eva-design/eva';
+import { ApplicationProvider, Layout, Text } from 'react-native-ui-kitten';
 
-export default class HelloWorldApp extends Component {
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Hello, world!</Text>
-      </View>
-    );
-  }
-}
+const ApplicationContent = () => (
+  <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <Text>Welcome to UI Kitten</Text>
+  </Layout>
+);
+
+const App = () => (
+  <ApplicationProvider mapping={mapping} theme={lightTheme}>
+    <ApplicationContent />
+  </ApplicationProvider>
+);
+
+export default App;
