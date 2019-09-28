@@ -42,7 +42,7 @@ def process(img):
     keypoints = _serialize_points(keypoints)
 
     # draw and save 
-    img = _draw_over_frame()
+    img = _draw_over_frame(img, keypoints)
     cv2.imwrite("test/output.jpg", img)
 
     return keypoints
