@@ -1,13 +1,15 @@
 import React from 'react';
-import { Text, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
+import { Text, StyleSheet, View, TouchableOpacity, Image, CameraRoll } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import { Icon } from 'react-native-ui-kitten';
+import * as FileSystem from 'expo-file-system';
 
 export class CameraScreen extends React.Component {
   state = {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
+    uri: '',
   };
 
   async componentDidMount() {
@@ -23,10 +25,10 @@ export class CameraScreen extends React.Component {
        exif: true};
        await this.camera.takePictureAsync(options).then(photo => {
           photo.exif.Orientation = 1;
-           console.log(photo.uri);
+           console.log(photo);
            const uri = photo.uri;
-           return <Image style={{ zIndex: 3 }} source={{ uri }} />
-           });
+           CameraRoll.saveToCameraRoll(uri);
+       });
      }
   }
 
@@ -60,5 +62,5 @@ export class CameraScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  snap: { fontSize: 30, color: 'white', position: 'absolute', left: 200, bottom: 300, zIndex: 2, color: 'white' },
+  snap: { fontSize: 30, color: 'white', position: 'absolute', left: '50%', bottom: 300, zIndex: 2, color: 'white' },
 });
