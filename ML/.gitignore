@@ -8,3 +8,4 @@ __pycache__
 download.sh
 demo/
 test/
+.ipynb_checkpoints/

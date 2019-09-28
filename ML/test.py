@@ -10,4 +10,4 @@ _, img_encoded = cv2.imencode('.jpg', img)
 
 response = requests.post(test_url, data=img_encoded.tostring())
 
-print(response.json())
+print(json.dumps(response.json(), indent=2))
