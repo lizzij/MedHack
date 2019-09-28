@@ -6,7 +6,11 @@ const multer = require('multer');
 
 // node core libraries
 const path = require('path');
+<<<<<<< HEAD
+// const fs = require('fs');
+=======
 const fs = require('fs');
+>>>>>>> 429d732bfa7237da9a2ad51359f8eaa4615f9b90
 
 // model imports
 const Patient = require('./models/patient');
@@ -80,6 +84,9 @@ app.get('/test', (req, res, next) => {
 });
 
 app.get('/create-user', (req, res, next) => {
+<<<<<<< HEAD
+
+=======
     const nPatient = new Patient({
         name: 'BOB',
         log: [
@@ -99,6 +106,7 @@ app.get('/create-user', (req, res, next) => {
     .catch(err => {
         console.log(err)
     });
+>>>>>>> 429d732bfa7237da9a2ad51359f8eaa4615f9b90
 });
 
 app.use(bloodRoutes);

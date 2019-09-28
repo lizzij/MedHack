@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Pose Tracking Backend
 This API recieves an image and returns a json with openpose keypoints of the BODY_25 model and performs pose anaylsis for proper posture when taking blood pressure measurement.
 
@@ -56,3 +57,5 @@ Here each entry in "keypoints" represents the corresponding point on the BODY_25
 - **x**: x position (pixel) of the point on the image
 - **y**: y position (pixel) of the point on the image
 - **s**: confidence score (0 to 1) of the models prediction for that point
+=======
+>>>>>>> c7c0a031368ab5292ae7da5e12b5a0985bd69c5a
