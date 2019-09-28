@@ -5,6 +5,7 @@ import numpy as np
 from flask import Flask, request, jsonify, Response
 
 from pose import process
+from bp import validate
 
 app = Flask(__name__)
 
@@ -14,9 +15,8 @@ def entry():
     img = cv2.imdecode(imgarr, cv2.IMREAD_COLOR)
 
     keypoints = process(img)
-    response ={
-        "keypoints": keypoints
-    }
+    response = validate(keypoints)
+    
+    response["keypoints"] = [list(trio) for trio in keypoints]
 
-    # response = {'message': 'image received. size={}x{}'.format(img.shape[1], img.shape[0])}
     return jsonify(response)
