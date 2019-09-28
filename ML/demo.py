@@ -57,8 +57,10 @@ if __name__ == "__main__":
     json_fpath = 'demo/input_keypoints.json'
     output_fpath = 'demo/output.jpg'
 
+    img = oad_img(input_fpath)
     width, height, n_channels = img.shape
     keypoints = serialize_points(load_keypoints(json_fpath)["people"][0]["pose_keypoints_2d"])
 
     img = draw_over_frame(img, keypoints)
     cv2.imwrite(output_fpath, img)
+    

@@ -9,4 +9,4 @@ $BIN_FPATH --image_dir $DEMO_DIR --display 0 --render_pose 0 --write_json $DEMO_
 
 cd $CUR_DIR
 python demo.py
-echo *** done executing ***
+echo done_executing
