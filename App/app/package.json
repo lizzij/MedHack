@@ -21,6 +21,7 @@
     "react-native-image-picker-form": "^0.2.5",
     "react-native-ui-kitten": "^4.2.0",
     "react-native-web": "^0.11.7",
+    "rn-fetch-blob": "^0.11.2",
     "tcomb-form-native": "^0.6.20"
   },
   "devDependencies": {

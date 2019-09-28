@@ -1,9 +1,32 @@
 import React from 'react';
-import { Text, StyleSheet, View, TouchableOpacity, Image, CameraRoll } from 'react-native';
+import { Text, StyleSheet, View, TouchableOpacity, Image, CameraRoll, NativeModules, ImageStore } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import { Icon } from 'react-native-ui-kitten';
 import * as FileSystem from 'expo-file-system';
+
+_getImage = () => {
+
+   CameraRoll.getPhotos({
+       first: 1,
+       assetType: 'Photos',
+     })
+     .then(r => {
+
+       // ImageStore.getBase64ForTag(r.page_info.end_cursor, (base64Data) => {
+       //   console.log(base64Data);
+       // });
+
+       const dir = r.page_info.end_cursor
+       //  console.log(r)
+       console.log(dir)
+       console.log(readFile(dir, 'base64'))
+       return dir
+     })
+     .catch((err) => {
+       console.log(err)
+     });
+   };
 
 export class CameraScreen extends React.Component {
   state = {
@@ -28,10 +51,23 @@ export class CameraScreen extends React.Component {
            console.log(photo);
            const uri = photo.uri;
            CameraRoll.saveToCameraRoll(uri);
+           image = _getImage();
+           fetch('http://56cb836e.ngrok.io/rr/routeImage', {
+             method: 'POST',
+             headers: {
+               'Content-Type': 'application/json'
+             },
+             body: JSON.stringify({
+               image: 'testTesttest',
+             })
+           })
+           .catch(err => {
+             console.log(err);
+           });
        });
      }
   }
-
+// <Image style={styles.snap} source={'../img/radio-button-on-outline.png'} />
   render() {
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
@@ -51,7 +87,8 @@ export class CameraScreen extends React.Component {
                 flexDirection: 'row',
               }}>
               <TouchableOpacity onPress={this.snapPhoto.bind(this)}>
-                <Text style={ styles.snap } category='h4'>SNAP</Text>
+                <Text style={styles.snap}>SNAP</Text>
+
               </TouchableOpacity>
             </View>
           </Camera>
@@ -62,5 +99,5 @@ export class CameraScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  snap: { fontSize: 30, color: 'white', position: 'absolute', left: '50%', bottom: 300, zIndex: 2, color: 'white' },
+  snap: { color: 'white', position: 'absolute', left: 180, bottom: 300, zIndex: 2 },
 });
