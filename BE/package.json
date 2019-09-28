@@ -1,0 +1,24 @@
+{
+  "name": "medhacks_01",
+  "version": "0.1.0",
+  "description": "Blood pressure backend",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js",
+    "start-server": "node app.js"
+  },
+  "author": "Hasheeb Kazi",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "mongodb": "^3.1.6",
+    "mongoose": "^5.2.17",
+    "multer": "^1.4.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
