@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, StyleSheet, View, TouchableOpacity, Image, CameraRoll, NativeModules, ImageStore } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
-import { Icon } from 'react-native-ui-kitten';
+import { Icon, CheckBox } from 'react-native-ui-kitten';
 import * as FileSystem from 'expo-file-system';
 
 _getImageUri = () => {
@@ -24,6 +24,11 @@ export class CameraScreen extends React.Component {
     type: Camera.Constants.Type.back,
     uri: 'transparent.png',
     enlargeImage: false,
+    checked: false,
+  };
+
+  onChange = (checked) => {
+    this.setState({ checked });
   };
 
   enlargeImage = () => {
@@ -55,7 +60,8 @@ export class CameraScreen extends React.Component {
            this.setState({ uri: uri });
 
            // fetch('http://cd0b5e91.ngrok.io/rr/routeImage', {
-           fetch('http://35.239.109.174/b64', {
+           const url = this.state.checked ? 'ocr' : 'b64'
+           fetch('http://35.239.109.174/' + url, {
              method: 'POST',
              headers: {
                'Content-Type': 'application/json'
@@ -86,6 +92,11 @@ export class CameraScreen extends React.Component {
                 backgroundColor: 'transparent',
                 flexDirection: 'row',
               }}>
+              <CheckBox
+                style={styles.checkbox}
+                checked={this.state.checked}
+                onChange={this.onChange}
+              />
               <TouchableOpacity onPress={this.snapPhoto.bind(this)}>
                 <Image style={styles.button} source={require('../img/cameraButton.png')} />
               </TouchableOpacity>
@@ -105,6 +116,7 @@ export class CameraScreen extends React.Component {
 
 const styles = StyleSheet.create({
   button: { width: 80, height: 80, zIndex: 3, position: 'absolute', left: 170, bottom: 60 },
+  checkbox: { zIndex: 1, position: 'absolute', right: 60, bottom: 80 },
   snap: { color: 'white', position: 'absolute', left: 180, bottom: 300, zIndex: 2 },
   smallImage: { position: 'absolute', left: 48, bottom: 55, zIndex: 2, width: 80, height: 80, borderRadius: 10 },
   largeImage: { position: 'absolute', zIndex: 5, bottom: 0, width: 414, height: 896 },
