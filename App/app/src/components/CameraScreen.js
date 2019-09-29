@@ -37,7 +37,7 @@ export class CameraScreen extends React.Component {
     console.log('Button Pressed');
     if (this.camera) {
        console.log('Taking photo');
-       const options = { quality: 1, base64: true, fixOrientation: true, exif: true};
+       const options = { quality: 0, base64: true, fixOrientation: true, exif: true};
 
        await this.camera.takePictureAsync(options).then(photo => {
           photo.exif.Orientation = 1;
@@ -68,7 +68,7 @@ export class CameraScreen extends React.Component {
        });
      }
   }
-// <Image style={styles.snap} source={'../img/radio-button-on-outline.png'} />
+
   render() {
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
@@ -89,6 +89,7 @@ export class CameraScreen extends React.Component {
               }}>
               <TouchableOpacity onPress={this.snapPhoto.bind(this)}>
                 <Text style={styles.snap}>SNAP</Text>
+                <Image style={styles.button} source={require('../img/cameraButton.png')} />
                 <Image
                   style={{width: 300, height: 300, zIndex: 1}}
                   source={{uri: this.state.uri }}  />
@@ -102,5 +103,6 @@ export class CameraScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  button: { zIndex: 3, position: 'absolute', left: 185, bottom: 100 },
   snap: { color: 'white', position: 'absolute', left: 180, bottom: 300, zIndex: 2 },
 });
