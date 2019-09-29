@@ -5,22 +5,15 @@ import { Camera } from 'expo-camera';
 import { Icon } from 'react-native-ui-kitten';
 import * as FileSystem from 'expo-file-system';
 
-_getImage = () => {
-
+_getImageUri = () => {
    CameraRoll.getPhotos({
        first: 1,
        assetType: 'Photos',
      })
      .then(r => {
-
-       // ImageStore.getBase64ForTag(r.page_info.end_cursor, (base64Data) => {
-       //   console.log(base64Data);
-       // });
-
        const dir = r.page_info.end_cursor
-       //  console.log(r)
+       console.log(r)
        console.log(dir)
-       console.log(readFile(dir, 'base64'))
        return dir
      })
      .catch((err) => {
@@ -44,15 +37,27 @@ export class CameraScreen extends React.Component {
     console.log('Button Pressed');
     if (this.camera) {
        console.log('Taking photo');
-       const options = { quality: 1, base64: false, fixOrientation: true,
-       exif: true};
+       const options = { quality: 1, base64: false, fixOrientation: true, exif: true};
        await this.camera.takePictureAsync(options).then(photo => {
           photo.exif.Orientation = 1;
            console.log(photo);
            const uri = photo.uri;
            CameraRoll.saveToCameraRoll(uri);
-           image = _getImage();
-           fetch('http://56cb836e.ngrok.io/rr/routeImage', {
+           cameraRollUri = _getImageUri();
+           try{
+             this.setState({ uri: uri });
+             const imageReadOptions = { }
+             console.log('starting to reading-------')
+             const data = FileSystem.readAsStringAsync(cameraRollUri)
+             console.log(data)
+             console.log('finish reading-------')
+           }
+           catch(err){
+             console.log(err);
+           }
+
+
+           fetch('http://cd0b5e91.ngrok.io/rr/routeImage', {
              method: 'POST',
              headers: {
                'Content-Type': 'application/json'
@@ -88,7 +93,9 @@ export class CameraScreen extends React.Component {
               }}>
               <TouchableOpacity onPress={this.snapPhoto.bind(this)}>
                 <Text style={styles.snap}>SNAP</Text>
-
+                <Image
+                  style={{width: 300, height: 300, zIndex: 1}}
+                  source={{uri: this.state.uri }}  />
               </TouchableOpacity>
             </View>
           </Camera>

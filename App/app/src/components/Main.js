@@ -8,7 +8,7 @@ import { CameraScreen } from '../components/CameraScreen.js';
 
 export const Main = () => (
   <Layout style={styles.container}>
-    <Text style={styles.text} category='h4'>Welcome to [TeamName]</Text>
+    <Text style={styles.text} category='h4'>Welcome to myBP</Text>
     <View style={styles.cameraWrapper}>
       <CameraScreen />
     </View>

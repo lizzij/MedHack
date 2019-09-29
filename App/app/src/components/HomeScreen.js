@@ -4,7 +4,7 @@ import { Button, Layout, Text } from 'react-native-ui-kitten';
 
 export const HomeScreen = () => (
   <Layout style={styles.container}>
-    <Text style={styles.text} category='h4'>Welcome to [TeamName]</Text>
+    <Text style={styles.text} category='h4'>Welcome to myBP</Text>
     <Button>BUTTON</Button>
   </Layout>
 );
