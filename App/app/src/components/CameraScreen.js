@@ -23,7 +23,16 @@ export class CameraScreen extends React.Component {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
     uri: 'transparent.png',
+    enlargeImage: false,
   };
+
+  enlargeImage = () => {
+     this.setState({ enlargeImage: true });
+  }
+
+  shrinkImage = () => {
+    this.setState({ enlargeImage: false })
+  }
 
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -34,7 +43,7 @@ export class CameraScreen extends React.Component {
     console.log('Button Pressed');
     if (this.camera) {
        console.log('Taking photo');
-       const options = { quality: 0, base64: false, fixOrientation: true, exif: true};
+       const options = { quality: 0, base64: true, fixOrientation: true, exif: true};
 
        await this.camera.takePictureAsync(options).then(photo => {
           photo.exif.Orientation = 1;
@@ -44,7 +53,10 @@ export class CameraScreen extends React.Component {
            cameraRollUri = _getImageUri();
            this.setState({ uri: uri });
 
-           fetch('http://cd0b5e91.ngrok.io/rr/routeImage', {
+           // const test = "data:image/gif;base64,R0lGODlhPQBEAPeoAJosM/";
+
+           // fetch('http://cd0b5e91.ngrok.io/rr/routeImage', {
+           fetch('http://35.239.109.174/b64', {
              method: 'POST',
              headers: {
                'Content-Type': 'application/json'
@@ -77,10 +89,13 @@ export class CameraScreen extends React.Component {
               }}>
               <TouchableOpacity onPress={this.snapPhoto.bind(this)}>
                 <Image style={styles.button} source={require('../img/cameraButton.png')} />
-                <Image
-                  style={{width: 500, height: 1000, zIndex: 1}}
-                  source={{uri: this.state.uri }}  />
               </TouchableOpacity>
+              {!this.state.enlargeImage && <TouchableOpacity onPress={this.enlargeImage}>
+                <Image style={styles.smallImage} source={{uri: this.state.uri }} />
+              </TouchableOpacity>}
+              {this.state.enlargeImage && <TouchableOpacity onPress={this.shrinkImage}>
+                <Image style={styles.largeImage} source={{uri: this.state.uri }} />
+              </TouchableOpacity>}
             </View>
           </Camera>
         </View>
@@ -92,4 +107,6 @@ export class CameraScreen extends React.Component {
 const styles = StyleSheet.create({
   button: { width: 80, height: 80, zIndex: 3, position: 'absolute', left: 170, bottom: 60 },
   snap: { color: 'white', position: 'absolute', left: 180, bottom: 300, zIndex: 2 },
+  smallImage: { position: 'absolute', left: 48, bottom: 55, zIndex: 2, width: 80, height: 80, borderRadius: 10 },
+  largeImage: { position: 'absolute', zIndex: 5, bottom: 0, width: 828, height: 1792 },
 });
