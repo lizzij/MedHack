@@ -16,16 +16,13 @@ _getImageUri = () => {
        console.log(dir)
        return dir
      })
-     .catch((err) => {
-       console.log(err)
-     });
    };
 
 export class CameraScreen extends React.Component {
   state = {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
-    uri: '',
+    uri: 'transparent.png',
   };
 
   async componentDidMount() {
@@ -37,7 +34,7 @@ export class CameraScreen extends React.Component {
     console.log('Button Pressed');
     if (this.camera) {
        console.log('Taking photo');
-       const options = { quality: 0, base64: true, fixOrientation: true, exif: true};
+       const options = { quality: 0, base64: false, fixOrientation: true, exif: true};
 
        await this.camera.takePictureAsync(options).then(photo => {
           photo.exif.Orientation = 1;
@@ -45,13 +42,7 @@ export class CameraScreen extends React.Component {
            const uri = photo.uri;
            CameraRoll.saveToCameraRoll(uri);
            cameraRollUri = _getImageUri();
-           try{
-             this.setState({ uri: uri });
-           }
-           catch(err){
-             console.log(err);
-           }
-
+           this.setState({ uri: uri });
 
            fetch('http://cd0b5e91.ngrok.io/rr/routeImage', {
              method: 'POST',
@@ -62,9 +53,6 @@ export class CameraScreen extends React.Component {
                image: photo.base64,
              })
            })
-           .catch(err => {
-             console.log(err);
-           });
        });
      }
   }
@@ -88,10 +76,9 @@ export class CameraScreen extends React.Component {
                 flexDirection: 'row',
               }}>
               <TouchableOpacity onPress={this.snapPhoto.bind(this)}>
-                <Text style={styles.snap}>SNAP</Text>
                 <Image style={styles.button} source={require('../img/cameraButton.png')} />
                 <Image
-                  style={{width: 300, height: 300, zIndex: 1}}
+                  style={{width: 500, height: 1000, zIndex: 1}}
                   source={{uri: this.state.uri }}  />
               </TouchableOpacity>
             </View>
@@ -103,6 +90,6 @@ export class CameraScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  button: { zIndex: 3, position: 'absolute', left: 185, bottom: 100 },
+  button: { width: 80, height: 80, zIndex: 3, position: 'absolute', left: 170, bottom: 60 },
   snap: { color: 'white', position: 'absolute', left: 180, bottom: 300, zIndex: 2 },
 });
