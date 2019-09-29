@@ -45,15 +45,14 @@ export class CameraScreen extends React.Component {
        console.log('Taking photo');
        const options = { quality: 0, base64: true, fixOrientation: true, exif: true};
 
-       await this.camera.takePictureAsync(options).then(photo => {
-          photo.exif.Orientation = 1;
-           console.log(photo);
+       await this.camera.takePictureAsync(options)
+       .then(photo => {
+           photo.exif.Orientation = 1;
+           console.log('photo');
            const uri = photo.uri;
            CameraRoll.saveToCameraRoll(uri);
            cameraRollUri = _getImageUri();
            this.setState({ uri: uri });
-
-           // const test = "data:image/gif;base64,R0lGODlhPQBEAPeoAJosM/";
 
            // fetch('http://cd0b5e91.ngrok.io/rr/routeImage', {
            fetch('http://35.239.109.174/b64', {
@@ -108,5 +107,5 @@ const styles = StyleSheet.create({
   button: { width: 80, height: 80, zIndex: 3, position: 'absolute', left: 170, bottom: 60 },
   snap: { color: 'white', position: 'absolute', left: 180, bottom: 300, zIndex: 2 },
   smallImage: { position: 'absolute', left: 48, bottom: 55, zIndex: 2, width: 80, height: 80, borderRadius: 10 },
-  largeImage: { position: 'absolute', zIndex: 5, bottom: 0, width: 828, height: 1792 },
+  largeImage: { position: 'absolute', zIndex: 5, bottom: 0, width: 414, height: 896 },
 });
