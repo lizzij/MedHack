@@ -25,6 +25,8 @@ export class CameraScreen extends React.Component {
     uri: 'transparent.png',
     enlargeImage: false,
     checked: false,
+    postureReponse: '',
+    showText: false,
   };
 
   onChange = (checked) => {
@@ -37,6 +39,10 @@ export class CameraScreen extends React.Component {
 
   shrinkImage = () => {
     this.setState({ enlargeImage: false })
+  }
+
+  displayText = () => {
+    this.setState({ showText: true})
   }
 
   async componentDidMount() {
@@ -70,11 +76,23 @@ export class CameraScreen extends React.Component {
                image: photo.base64,
              })
            })
+           .then(response => {
+             return response.json();
+           })
+           .then(test => {
+             this.setState({ postureReponse: test });
+             console.log(test);
+           })
+           .catch(err => {
+             console.log("fetch error" + err);
+           });
        });
      }
   }
 
   render() {
+    console.log('posture response: ')
+    console.log(this.state.postureReponse)
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
       return <View />;
@@ -91,12 +109,20 @@ export class CameraScreen extends React.Component {
                 flex: 1,
                 backgroundColor: 'transparent',
                 flexDirection: 'row',
+                paddingTop: 100,
               }}>
+              {this.state.showText && !this.state.postureReponse.valid_wrist && <Text style={styles.feedbacks}>wrist is too high, make sure your arm is resting on a table</Text>}
+              {this.state.showText && !this.state.postureReponse.valid_legs && <Text style={styles.feedbacks}>legs are crossed, make sure you are comfortable and your legs are uncrossed</Text>}
+              {this.state.showText && !this.state.postureReponse.valid_feet && <Text style={styles.feedbacks}>feet should be at the same level, make sure you are seated with your feet on the floor</Text>}
+              {this.state.showText && !this.state.postureReponse.valid_cuff && <Text style={styles.feedbacks}>cuff should be level with your chest, with your arm rested on a table</Text>}
               <CheckBox
                 style={styles.checkbox}
                 checked={this.state.checked}
                 onChange={this.onChange}
               />
+              <TouchableOpacity style={styles.activity} onPress={ this.displayText }>
+                <Image style={styles.back} source={require('../img/question-mark-circle-outline.png')} />
+              </TouchableOpacity>
               <TouchableOpacity onPress={this.snapPhoto.bind(this)}>
                 <Image style={styles.button} source={require('../img/cameraButton.png')} />
               </TouchableOpacity>
@@ -115,7 +141,10 @@ export class CameraScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  feedbacks: { zIndex: 10, color: '#a71931', fontSize: 24 },
+  activity: { zIndex: 4, position: 'absolute', left: 40, top: 70 },
   button: { width: 80, height: 80, zIndex: 3, position: 'absolute', left: 170, bottom: 60 },
+  back: {  width: 40, height: 40},
   checkbox: { zIndex: 1, position: 'absolute', right: 60, bottom: 80 },
   snap: { color: 'white', position: 'absolute', left: 180, bottom: 300, zIndex: 2 },
   smallImage: { position: 'absolute', left: 48, bottom: 55, zIndex: 2, width: 80, height: 80, borderRadius: 10 },

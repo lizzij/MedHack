@@ -10,11 +10,12 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 export const Main = () => (
   <Layout style={styles.container}>
-    <Image style={styles.back} source={require('../img/arrow-circle-left-outline.png')} />
     <TouchableOpacity style={styles.activity} onPress={()=>{ Linking.openURL('http://cd0b5e91.ngrok.io/dash')}}>
       <Image style={styles.dashboard} source={require('../img/dashboard.png')} />
     </TouchableOpacity>
-    <Image style={styles.logo} source={require('../img/icon3.png')} />
+    <TouchableOpacity style={styles.icon} onPress={()=>{ Linking.openURL('http://35.239.109.174/static/skeleton.jpg')}}>
+      <Image style={styles.logo} source={require('../img/icon3.png')} />
+    </TouchableOpacity>
     <View style={styles.cameraWrapper}>
       <CameraScreen />
     </View>
@@ -25,6 +26,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, alignItems: 'center' },
   logo: { zIndex: 3, position: 'absolute', width: 80, height: 80, top: 50 },
   back: { zIndex: 3, position: 'absolute', width: 40, height: 40, left: 40, top: 70 },
+  icon: { zIndex: 3, right: 1},
   activity: { zIndex: 3, position: 'absolute', right: 40, top: 70 },
   dashboard: { width: 40, height: 40},
   text: { color: 'white', position: 'absolute', top: 77, zIndex: 2 },
