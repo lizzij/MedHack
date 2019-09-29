@@ -7,7 +7,7 @@ def valid_legs(keypoints):
     x14, y14, s14 = keypoints[14] # left foot
     x11, y11, s11 = keypoints[11] # right foot
     
-    return x14 > x11
+    return x14 > x11 or (s14 < 0.3) or (s11 < 0.3)
     
 def valid_cuff(keypoints):
     x5, y5, s5 = keypoints[5] # left shoulder
@@ -31,7 +31,7 @@ def valid_feet(keypoints):
     x14, y14, s14 = keypoints[14] # left foot
     x11, y11, s11 = keypoints[11] # right foot
     
-    return y11-5 < y14 < y11+5
+    return (y11-5 < y14 < y11+5) or (s14 < 0.3) or (s11 > 0.3)
 
 
 def validate(keypoints):
@@ -40,7 +40,7 @@ def validate(keypoints):
     cuff_y, heart_y = valid_cuff(keypoints)
     
     response = {
-        "valid_cuff": heart_y - factor < cuff_y < heart_y + factor,
+        "valid_scuff": heart_y - factor < cuff_y < heart_y + factor,
         "cuff_max": heart_y-factor,
         "cuff_min": heart_y+factor*2,
         "cuff_pose": cuff_y,
