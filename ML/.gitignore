@@ -1,12 +1,14 @@
 __pycache__
 .DS_Store
-.egg
-.egg-info
-.pyc
-.py~
+*.egg
+*.egg-info
+*.pyc
+*.py~
 
 download.sh
 ocr_img/
 demo/
 test/
+media/
+static/
 .ipynb_checkpoints/
