@@ -109,6 +109,7 @@ export class CameraScreen extends React.Component {
                 flex: 1,
                 backgroundColor: 'transparent',
                 flexDirection: 'row',
+                paddingTop: 100,
               }}>
               {this.state.showText && !this.state.postureReponse.valid_wrist && <Text style={styles.feedbacks}>wrist is too high, make sure your arm is resting on a table</Text>}
               {this.state.showText && !this.state.postureReponse.valid_legs && <Text style={styles.feedbacks}>legs are crossed, make sure you are comfortable and your legs are uncrossed</Text>}
@@ -140,7 +141,7 @@ export class CameraScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  feedbacks: { zIndex: 10, color: 'white', fontSize: 24 },
+  feedbacks: { zIndex: 10, color: '#a71931', fontSize: 24 },
   activity: { zIndex: 4, position: 'absolute', left: 40, top: 70 },
   button: { width: 80, height: 80, zIndex: 3, position: 'absolute', left: 170, bottom: 60 },
   back: {  width: 40, height: 40},
