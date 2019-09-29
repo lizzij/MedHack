@@ -37,7 +37,8 @@ export class CameraScreen extends React.Component {
     console.log('Button Pressed');
     if (this.camera) {
        console.log('Taking photo');
-       const options = { quality: 1, base64: false, fixOrientation: true, exif: true};
+       const options = { quality: 1, base64: true, fixOrientation: true, exif: true};
+
        await this.camera.takePictureAsync(options).then(photo => {
           photo.exif.Orientation = 1;
            console.log(photo);
@@ -46,11 +47,6 @@ export class CameraScreen extends React.Component {
            cameraRollUri = _getImageUri();
            try{
              this.setState({ uri: uri });
-             const imageReadOptions = { }
-             console.log('starting to reading-------')
-             const data = FileSystem.readAsStringAsync(cameraRollUri)
-             console.log(data)
-             console.log('finish reading-------')
            }
            catch(err){
              console.log(err);
@@ -63,7 +59,7 @@ export class CameraScreen extends React.Component {
                'Content-Type': 'application/json'
              },
              body: JSON.stringify({
-               image: 'testTesttest',
+               image: photo.base64,
              })
            })
            .catch(err => {
