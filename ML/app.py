@@ -1,6 +1,7 @@
 import os
 import json
 import cv2
+import base64
 import numpy as np
 from flask import Flask, request, jsonify, Response
 
@@ -14,7 +15,7 @@ app = Flask(__name__)
 def entry():
     imgarr = np.fromstring(request.data, np.uint8)
     img = cv2.imdecode(imgarr, cv2.IMREAD_COLOR)
-
+    
     keypoints = process(img)
     response = validate(keypoints)
     
@@ -27,10 +28,6 @@ def ocr():
     imgarr = np.fromstring(request.data, np.uint8)
     img = cv2.imdecode(imgarr, cv2.IMREAD_COLOR)
 
-    blood_pressure = get_bp(img)
+    response = get_bp(img)
     
-    response = {
-        "blood_pressure": blood_pressure
-    }
-
     return jsonify(response)

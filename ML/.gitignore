@@ -6,6 +6,7 @@ __pycache__
 .py~
 
 download.sh
+ocr_img/
 demo/
 test/
 .ipynb_checkpoints/
