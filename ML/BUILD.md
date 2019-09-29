@@ -63,3 +63,15 @@ sudo apt install libtesseract-dev
 sudo pip install pytesseract
 pip install imutils
 ```
+
+# Install Seven Segment OCR
+```bash
+sudo apt-get install libx11-dev
+sudo apt-get install libimlib2-dev
+wget https://www.unix-ag.uni-kl.de/~auerswal/ssocr/ssocr-2.19.0.tar.bz2
+bzip2 -d ssocr-2.19.0.tar.bz2
+tar xvf ssocr-2.19.0.tar
+rm -rf ssocr-2.19.0.tar
+cd d ssocr-2.19.0/
+make
+```
